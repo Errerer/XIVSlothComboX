@@ -3963,18 +3963,19 @@ namespace XIVSlothComboX.Combos
         #region DARK KNIGHT
 
         [SecretCustomCombo]
-        [CustomComboInfo("爆发模式", "Turns 噬魂斩连击 into an all-in-one damage button.", DRK.JobID)]
+        [CustomComboInfo("特殊循环模式", "使用连击时循环内包括暗影使者和血溅,黑盾加入循环", DRK.JobID)]
         DRKPvP_Burst = 115000,
 
         [SecretCustomCombo]
         [ParentCombo(DRKPvP_Burst)]
-        [CustomComboInfo("Plunge Option", "Adds Plunge to Burst Mode.", DRK.JobID)]
+        [CustomComboInfo("跳斩选项", "将跳斩添加到爆发模式中", DRK.JobID)]
         DRKPvP_Plunge = 115001,
 
         [SecretCustomCombo]
         [ParentCombo(DRKPvP_Plunge)]
-        [CustomComboInfo("近战时使用跳斩 设置", "Uses Plunge whilst in melee range, and not just as a gap-closer.", DRK.JobID)]
+        [CustomComboInfo("近战时使用跳斩设置", "在近战范围内使用跳斩，而不仅仅是作为一个贴近敌人的技能。", DRK.JobID)]
         DRKPvP_PlungeMelee = 115002,
+
 
         // Last value = 115002
 

@@ -1416,6 +1416,7 @@ namespace XIVSlothComboX.Window.Functions
             #endregion
             // ====================================================================================
             #region DARK KNIGHT
+            PlayerCharacter? dk = Service.ClientState.LocalPlayer;
 
             if (preset == CustomComboPreset.DRK_EoSPooling && enabled)
                 UserConfig.DrawSliderInt(0, 3000, DRK.Config.DRK_MPManagement, "保留多少MP (0 = 全部使用)", 150, SliderIncrements.Thousands);
@@ -1424,7 +1425,41 @@ namespace XIVSlothComboX.Window.Functions
                 UserConfig.DrawSliderInt(0, 1, DRK.Config.DRK_KeepPlungeCharges, "留几层充能? (0 = 用光，一层不留)", 75, SliderIncrements.Ones);
 
             if (preset == CustomComboPreset.DRKPvP_Burst)
-                UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.ShadowbringerThreshold, "HP% to be at or above to use Shadowbringer");
+                UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.ShadowbringerThreshold, "血量达到或超过百分比多少时才能使用暗影使者");
+
+            
+            if (preset == CustomComboPreset.DRKPvP_Burst)
+                UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.QuietusThreshold, "血量低于百分比多少时才能使用寂灭。（寂灭必须能打到敌人，LB时不使用）");
+
+            //if (preset == CustomComboPreset.DRKPvP_Burst)
+            //    UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.DrkHealThreshold, "血量低于百分比多少时才能使用自愈（排除LB情况下）");
+            
+
+            if (preset == CustomComboPreset.DRKPvP_Burst)
+            {
+                if (dk != null)
+                {
+                    uint maxHP = Service.ClientState.LocalPlayer?.MaxHp <= 15000 ? 0 : Service.ClientState.LocalPlayer.MaxHp - 15000;
+
+                    if (maxHP > 0)
+                    {
+                        int setting = PluginConfiguration.GetCustomIntValue(DRKPvP.Config.DrkHealThreshold);
+                        float hpThreshold = (float)maxHP / 100 * setting;
+
+                        UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.DrkHealThreshold, $"生命值低于或等于: {hpThreshold}时使用");
+                    }
+
+                    else
+                    {
+                        UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.DrkHealThreshold, "设置百分比数值，低于等于时发挥本功能效果.\n为了防止满血使用浪费。100%指的是你的血量上限-15000.");
+                    }
+                }
+
+                else
+                {
+                    UserConfig.DrawSliderInt(1, 100, DRKPvP.Config.DrkHealThreshold, "设置百分比数值，低于等于时发挥本功能效果.\n为了防止满血使用浪费。100%指的是你的血量上限-15000.");
+                }
+            }
 
             if (preset == CustomComboPreset.DRK_Variant_Cure)
                 UserConfig.DrawSliderInt(1, 100, DRK.Config.DRK_VariantCure, "HP% to be at or under", 200);
